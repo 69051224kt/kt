@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudyFlow — Student Productivity</title>
+  <meta name="description" content="StudyFlow helps students plan tasks, follow a weekly study schedule, and track progress." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-orb bg-orb-one" aria-hidden="true"></div>
+  <div class="bg-orb bg-orb-two" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="brand" href="#dashboard" data-nav="dashboard">
+      <span class="brand-mark">SF</span>
+      <span class="brand-text">StudyFlow</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" type="button" aria-expanded="false" aria-controls="siteNav" aria-label="Open menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="site-nav" id="siteNav" aria-label="Primary">
+      <a href="#dashboard" data-nav="dashboard" class="nav-link is-active">Dashboard</a>
+      <a href="#tasks" data-nav="tasks" class="nav-link">Tasks</a>
+      <a href="#schedule" data-nav="schedule" class="nav-link">Schedule</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="dashboard" class="view is-visible" aria-labelledby="welcomeHeading">
+      <div class="hero card">
+        <div>
+          <p class="eyebrow" id="todayDate">Today</p>
+          <h1 id="welcomeHeading">Welcome back, <span id="displayName">Student</span></h1>
+          <p class="lede">Keep your week calm, complete what matters, and watch your study momentum grow.</p>
+        </div>
+        <form class="name-form" id="nameForm">
+          <label for="nameInput">What should we call you?</label>
+          <div class="input-row">
+            <input id="nameInput" type="text" maxlength="24" placeholder="Your first name" autocomplete="given-name" />
+            <button type="submit" class="btn btn-primary">Save name</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="stats-grid">
+        <article class="card stat-card">
+          <p class="stat-label">Completed</p>
+          <p class="stat-value" id="statCompleted">0</p>
+          <p class="stat-hint">of <span id="statTotal">0</span> tasks</p>
+        </article>
+        <article class="card stat-card">
+          <p class="stat-label">Still open</p>
+          <p class="stat-value" id="statOpen">0</p>
+          <p class="stat-hint">waiting on your list</p>
+        </article>
+        <article class="card stat-card">
+          <p class="stat-label">Focus sessions</p>
+          <p class="stat-value" id="statSessions">0</p>
+          <p class="stat-hint">on this week’s schedule</p>
+        </article>
+      </div>
+
+      <article class="card progress-card">
+        <div class="progress-head">
+          <h2>Daily progress</h2>
+          <span class="progress-percent" id="progressPercent">0%</span>
+        </div>
+        <p class="muted">The bar fills as you complete tasks. Empty lists stay at 0%.</p>
+        <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progressBar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </article>
+
+      <div class="split">
+        <article class="card">
+          <div class="section-head">
+            <h2>Today’s focus</h2>
+            <button type="button" class="btn btn-ghost" id="goToTasks">Open tasks</button>
+          </div>
+          <ul class="focus-list" id="todayFocus"></ul>
+        </article>
+        <article class="card quote-card">
+          <h2>Study note</h2>
+          <blockquote id="studyQuote">Small, finished sessions beat long, unfinished plans.</blockquote>
+          <button type="button" class="btn btn-secondary" id="newQuote">New note</button>
+        </article>
+      </div>
+    </section>
+
+    <section id="tasks" class="view" aria-labelledby="tasksHeading" hidden>
+      <div class="section-intro">
+        <h1 id="tasksHeading">Task manager</h1>
+        <p class="lede">Add work, mark it done, and delete anything you no longer need. Your list is saved in this browser.</p>
+      </div>
+
+      <article class="card">
+        <form id="taskForm" class="task-form">
+          <div class="field">
+            <label for="taskTitle">Task</label>
+            <input id="taskTitle" type="text" placeholder="Review chapter 4 notes" required maxlength="80" />
+          </div>
+          <div class="field">
+            <label for="taskSubject">Subject</label>
+            <select id="taskSubject">
+              <option value="General">General</option>
+              <option value="Math">Math</option>
+              <option value="Science">Science</option>
+              <option value="History">History</option>
+              <option value="Language">Language</option>
+              <option value="Project">Project</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="taskPriority">Priority</label>
+            <select id="taskPriority">
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Add task</button>
+        </form>
+      </article>
+
+      <div class="toolbar">
+        <div class="filters" role="tablist" aria-label="Filter tasks">
+          <button type="button" class="chip is-active" data-filter="all">All</button>
+          <button type="button" class="chip" data-filter="open">Open</button>
+          <button type="button" class="chip" data-filter="done">Completed</button>
+        </div>
+        <button type="button" class="btn btn-ghost" id="clearCompleted">Clear completed</button>
+      </div>
+
+      <ul class="task-list" id="taskList"></ul>
+      <p class="empty-state" id="taskEmpty" hidden>No tasks in this view. Add one above to get started.</p>
+    </section>
+
+    <section id="schedule" class="view" aria-labelledby="scheduleHeading" hidden>
+      <div class="section-intro">
+        <h1 id="scheduleHeading">Weekly study schedule</h1>
+        <p class="lede">A realistic week of classes, review, and rest. Today is highlighted automatically.</p>
+      </div>
+      <div class="schedule-grid" id="scheduleGrid"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>StudyFlow keeps your plan in this browser only — nothing is sent to a server.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
